@@ -13,19 +13,51 @@ const Index = () => {
   });
   const [prompt, setPrompt] = useState("");
 
+  const generatePrompt = (features: { tempo: number; key: string; mood: string }) => {
+    const { tempo, key, mood } = features;
+    
+    // Map moods to musical descriptors
+    const moodDescriptors: Record<string, { adjectives: string[]; instruments: string[] }> = {
+      "Energetic": {
+        adjectives: ["driving", "dynamic", "powerful"],
+        instruments: ["synthesizer", "electric guitar", "drums"],
+      },
+      "Calm": {
+        adjectives: ["flowing", "gentle", "atmospheric"],
+        instruments: ["piano", "strings", "acoustic guitar"],
+      },
+      "Melancholic": {
+        adjectives: ["emotional", "deep", "introspective"],
+        instruments: ["cello", "piano", "ambient pads"],
+      },
+    };
+
+    const moodInfo = moodDescriptors[mood] || moodDescriptors["Energetic"];
+    const adjective = moodInfo.adjectives[Math.floor(Math.random() * moodInfo.adjectives.length)];
+    const instrument = moodInfo.instruments[Math.floor(Math.random() * moodInfo.instruments.length)];
+
+    // Generate tempo description
+    let tempoDesc = "moderate";
+    if (tempo > 140) tempoDesc = "fast";
+    if (tempo < 90) tempoDesc = "slow";
+
+    return `Create a ${adjective} track in ${key} at ${tempo} BPM. Feature ${instrument} prominently to establish a ${mood.toLowerCase()} atmosphere. The composition should maintain a ${tempoDesc} and steady rhythm while emphasizing melodic elements that evoke a ${mood.toLowerCase()} feeling.`;
+  };
+
   const handleFileSelect = (file: File) => {
     const url = URL.createObjectURL(file);
     setAudioUrl(url);
     
     // Simulate feature extraction
     setTimeout(() => {
-      setFeatures({
+      const extractedFeatures = {
         tempo: Math.floor(Math.random() * 40) + 100,
         key: ["C Major", "G Major", "D Minor"][Math.floor(Math.random() * 3)],
         mood: ["Energetic", "Calm", "Melancholic"][Math.floor(Math.random() * 3)],
-      });
+      };
       
-      setPrompt("Create an upbeat electronic track with a driving rhythm at 128 BPM. Use synthesizer pads for atmosphere and incorporate melodic elements in C major. The mood should be energetic and optimistic.");
+      setFeatures(extractedFeatures);
+      setPrompt(generatePrompt(extractedFeatures));
     }, 2000);
   };
 
