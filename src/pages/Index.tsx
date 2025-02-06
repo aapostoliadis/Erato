@@ -16,32 +16,47 @@ const Index = () => {
   const generatePrompt = (features: { tempo: number; key: string; mood: string }) => {
     const { tempo, key, mood } = features;
     
-    // Map moods to musical descriptors
-    const moodDescriptors: Record<string, { adjectives: string[]; instruments: string[] }> = {
+    // Enhanced mood descriptors with more specific musical characteristics
+    const moodDescriptors: Record<string, { 
+      adjectives: string[]; 
+      instruments: string[];
+      effects: string[];
+      rhythmDescriptors: string[];
+    }> = {
       "Energetic": {
-        adjectives: ["driving", "dynamic", "powerful"],
-        instruments: ["synthesizer", "electric guitar", "drums"],
+        adjectives: ["high-energy", "dynamic", "powerful", "intense"],
+        instruments: ["distorted electric guitar", "punchy drums", "heavy bass"],
+        effects: ["driving", "pulsating", "energetic"],
+        rhythmDescriptors: ["powerful", "driving", "intense"],
       },
       "Calm": {
-        adjectives: ["flowing", "gentle", "atmospheric"],
-        instruments: ["piano", "strings", "acoustic guitar"],
+        adjectives: ["serene", "peaceful", "tranquil", "soothing"],
+        instruments: ["soft piano", "ambient synth pads", "gentle acoustic guitar"],
+        effects: ["reverberant", "floating", "atmospheric"],
+        rhythmDescriptors: ["flowing", "gentle", "relaxed"],
       },
       "Melancholic": {
-        adjectives: ["emotional", "deep", "introspective"],
-        instruments: ["cello", "piano", "ambient pads"],
+        adjectives: ["emotional", "reflective", "introspective", "haunting"],
+        instruments: ["mellow cello", "ethereal piano", "atmospheric pads"],
+        effects: ["ethereal", "dreamy", "contemplative"],
+        rhythmDescriptors: ["measured", "thoughtful", "deliberate"],
       },
     };
 
     const moodInfo = moodDescriptors[mood] || moodDescriptors["Energetic"];
     const adjective = moodInfo.adjectives[Math.floor(Math.random() * moodInfo.adjectives.length)];
     const instrument = moodInfo.instruments[Math.floor(Math.random() * moodInfo.instruments.length)];
+    const effect = moodInfo.effects[Math.floor(Math.random() * moodInfo.effects.length)];
+    const rhythmDesc = moodInfo.rhythmDescriptors[Math.floor(Math.random() * moodInfo.rhythmDescriptors.length)];
 
-    // Generate tempo description
+    // Generate tempo description with more nuanced ranges
     let tempoDesc = "moderate";
-    if (tempo > 140) tempoDesc = "fast";
-    if (tempo < 90) tempoDesc = "slow";
+    if (tempo > 160) tempoDesc = "very fast";
+    else if (tempo > 120) tempoDesc = "upbeat";
+    else if (tempo < 80) tempoDesc = "slow";
+    else if (tempo < 100) tempoDesc = "relaxed";
 
-    return `Create a ${adjective} track in ${key} at ${tempo} BPM. Feature ${instrument} prominently to establish a ${mood.toLowerCase()} atmosphere. The composition should maintain a ${tempoDesc} and steady rhythm while emphasizing melodic elements that evoke a ${mood.toLowerCase()} feeling.`;
+    return `Create a ${adjective} composition in ${key} at ${tempo} BPM. Feature ${instrument} with ${effect} qualities to establish a ${mood.toLowerCase()} atmosphere. The piece should maintain a ${rhythmDesc}, ${tempoDesc} rhythm while developing melodic themes that evoke a ${mood.toLowerCase()} feeling.`;
   };
 
   const handleFileSelect = (file: File) => {
