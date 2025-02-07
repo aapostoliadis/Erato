@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { AudioUpload } from "@/components/AudioUpload";
 import { AudioVisualizer } from "@/components/AudioVisualizer";
 import { FeatureDisplay } from "@/components/FeatureDisplay";
 import { PromptDisplay } from "@/components/PromptDisplay";
+import { Music2 } from "lucide-react";
 
 const Index = () => {
   const [audioUrl, setAudioUrl] = useState<string>("");
@@ -77,24 +79,39 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-violet-50 to-white px-4 py-8">
       <div className="mx-auto max-w-4xl space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Music Prompt Generator
-          </h1>
-          <p className="mt-2 text-muted-foreground">
-            Upload your audio to generate AI music prompts
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center space-x-3">
+            <div className="rounded-full bg-violet-500 p-3 animate-bounce">
+              <Music2 className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+              Music Prompt Generator
+            </h1>
+          </div>
+          <p className="text-lg text-muted-foreground">
+            Transform your music into creative AI prompts
           </p>
         </div>
 
-        <AudioUpload onFileSelect={handleFileSelect} />
+        <div className="transform hover:scale-[1.01] transition-transform duration-200">
+          <AudioUpload onFileSelect={handleFileSelect} />
+        </div>
 
         {audioUrl && (
-          <div className="space-y-8 fade-in">
-            <AudioVisualizer audioUrl={audioUrl} />
-            <FeatureDisplay features={features} />
-            <PromptDisplay prompt={prompt} />
+          <div className="space-y-8 animate-fade-in">
+            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+              <AudioVisualizer audioUrl={audioUrl} />
+            </div>
+            
+            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+              <FeatureDisplay features={features} />
+            </div>
+            
+            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+              <PromptDisplay prompt={prompt} />
+            </div>
           </div>
         )}
       </div>
