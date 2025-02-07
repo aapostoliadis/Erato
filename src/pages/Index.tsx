@@ -79,37 +79,37 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-violet-50 to-white px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 via-mauve-100 to-white px-4 py-8">
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-3">
-            <div className="rounded-full bg-violet-500 p-3 animate-bounce">
+            <div className="rounded-full bg-fuchsia-500 p-3 animate-bounce">
               <Music2 className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-fuchsia-600 to-mauve-600 bg-clip-text text-transparent">
               Music Prompt Generator
             </h1>
           </div>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-mauve-600">
             Transform your music into creative AI prompts
           </p>
         </div>
 
-        <div className="transform hover:scale-[1.01] transition-transform duration-200">
+        <div className="transform hover:scale-[1.01] transition-transform duration-200 hover:shadow-fuchsia-100">
           <AudioUpload onFileSelect={handleFileSelect} />
         </div>
 
         {audioUrl && (
           <div className="space-y-8 animate-fade-in">
-            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+            <div className="transform hover:scale-[1.01] transition-transform duration-200 hover:shadow-fuchsia-100">
               <AudioVisualizer audioUrl={audioUrl} />
             </div>
             
-            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+            <div className="transform hover:scale-[1.01] transition-transform duration-200 hover:shadow-fuchsia-100">
               <FeatureDisplay features={features} />
             </div>
             
-            <div className="transform hover:scale-[1.01] transition-transform duration-200">
+            <div className="transform hover:scale-[1.01] transition-transform duration-200 hover:shadow-fuchsia-100">
               <PromptDisplay prompt={prompt} />
             </div>
           </div>
