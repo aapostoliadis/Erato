@@ -4,7 +4,7 @@ import { AudioUpload } from "@/components/AudioUpload";
 import { AudioVisualizer } from "@/components/AudioVisualizer";
 import { FeatureDisplay } from "@/components/FeatureDisplay";
 import { PromptDisplay } from "@/components/PromptDisplay";
-import { Music2 } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 const Index = () => {
   const [audioUrl, setAudioUrl] = useState<string>("");
@@ -84,10 +84,10 @@ const Index = () => {
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-3">
             <div className="rounded-full bg-fuchsia-500 p-3 animate-bounce">
-              <Music2 className="h-6 w-6 text-white" />
+              <UserRound className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-fuchsia-600 to-mauve-600 bg-clip-text text-transparent">
-              Music Prompt Generator
+              Erato
             </h1>
           </div>
           <p className="text-lg text-mauve-600">
