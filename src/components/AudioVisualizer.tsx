@@ -10,6 +10,8 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const animationRef = useRef<number>();
   const analyzerRef = useRef<AnalyserNode>();
+  const audioContextRef = useRef<AudioContext>();
+  const sourceRef = useRef<MediaElementAudioSourceNode>();
 
   useEffect(() => {
     if (!audioUrl) return;
@@ -18,12 +20,22 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
     const canvas = canvasRef.current;
     if (!audio || !canvas) return;
 
+    // Clean up previous context and connections
+    if (audioContextRef.current) {
+      if (sourceRef.current) {
+        sourceRef.current.disconnect();
+      }
+      audioContextRef.current.close();
+    }
+
     const audioContext = new AudioContext();
+    audioContextRef.current = audioContext;
     const analyzer = audioContext.createAnalyser();
     analyzerRef.current = analyzer;
     analyzer.fftSize = 256;
 
     const source = audioContext.createMediaElementSource(audio);
+    sourceRef.current = source;
     source.connect(analyzer);
     analyzer.connect(audioContext.destination);
 
@@ -40,7 +52,6 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
 
       analyzer.getByteFrequencyData(dataArray);
 
-      // Use a semi-transparent white background
       ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -51,7 +62,6 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
       for (let i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i] / 2;
 
-        // Create a gradient from fuchsia to mauve
         const gradient = ctx.createLinearGradient(0, HEIGHT, 0, HEIGHT - barHeight);
         gradient.addColorStop(0, "rgba(217, 70, 239, 0.8)"); // Fuchsia
         gradient.addColorStop(1, "rgba(183, 148, 244, 0.2)"); // Mauve
@@ -69,7 +79,12 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
-      audioContext.close();
+      if (sourceRef.current) {
+        sourceRef.current.disconnect();
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
     };
   }, [audioUrl]);
 
