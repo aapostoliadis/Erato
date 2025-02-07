@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AudioUpload } from "@/components/AudioUpload";
 import { AudioVisualizer } from "@/components/AudioVisualizer";
@@ -61,21 +60,41 @@ const Index = () => {
     return `Create a ${adjective} composition in ${key} at ${tempo} BPM. Feature ${instrument} with ${effect} qualities to establish a ${mood.toLowerCase()} atmosphere. The piece should maintain a ${rhythmDesc}, ${tempoDesc} rhythm while developing melodic themes that evoke a ${mood.toLowerCase()} feeling.`;
   };
 
+  const extractFeatures = (fileName: string) => {
+    // Use a simple hash function to generate consistent values
+    const hash = fileName.split('').reduce((acc, char) => {
+      return char.charCodeAt(0) + ((acc << 5) - acc);
+    }, 0);
+
+    // Generate consistent tempo between 60 and 180 BPM
+    const tempo = Math.abs(hash % 120) + 60;
+
+    // Generate consistent key
+    const keys = ["C Major", "G Major", "D Major", "A Major", "E Major", "B Major", 
+                 "F Major", "A Minor", "E Minor", "B Minor", "F# Minor", "C# Minor"];
+    const keyIndex = Math.abs(hash) % keys.length;
+    const key = keys[keyIndex];
+
+    // Generate consistent mood
+    const moods = ["Energetic", "Calm", "Melancholic"];
+    const moodIndex = Math.abs(hash) % moods.length;
+    const mood = moods[moodIndex];
+
+    return {
+      tempo,
+      key,
+      mood,
+    };
+  };
+
   const handleFileSelect = (file: File) => {
     const url = URL.createObjectURL(file);
     setAudioUrl(url);
     
-    // Simulate feature extraction
-    setTimeout(() => {
-      const extractedFeatures = {
-        tempo: Math.floor(Math.random() * 40) + 100,
-        key: ["C Major", "G Major", "D Minor"][Math.floor(Math.random() * 3)],
-        mood: ["Energetic", "Calm", "Melancholic"][Math.floor(Math.random() * 3)],
-      };
-      
-      setFeatures(extractedFeatures);
-      setPrompt(generatePrompt(extractedFeatures));
-    }, 2000);
+    // Extract features based on file name
+    const extractedFeatures = extractFeatures(file.name);
+    setFeatures(extractedFeatures);
+    setPrompt(generatePrompt(extractedFeatures));
   };
 
   return (
