@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 
 interface AudioVisualizerProps {
@@ -39,7 +40,8 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
 
       analyzer.getByteFrequencyData(dataArray);
 
-      ctx.fillStyle = "rgb(255, 255, 255)";
+      // Use a semi-transparent white background
+      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       const barWidth = (WIDTH / bufferLength) * 2.5;
@@ -49,9 +51,10 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
       for (let i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i] / 2;
 
-        const gradient = ctx.createLinearGradient(0, 0, 0, HEIGHT);
-        gradient.addColorStop(0, "rgba(0,0,0,0.8)");
-        gradient.addColorStop(1, "rgba(0,0,0,0.2)");
+        // Create a gradient from fuchsia to mauve
+        const gradient = ctx.createLinearGradient(0, HEIGHT, 0, HEIGHT - barHeight);
+        gradient.addColorStop(0, "rgba(217, 70, 239, 0.8)"); // Fuchsia
+        gradient.addColorStop(1, "rgba(183, 148, 244, 0.2)"); // Mauve
 
         ctx.fillStyle = gradient;
         ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
