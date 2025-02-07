@@ -83,7 +83,7 @@ const Index = () => {
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-3">
-            <div className="rounded-full bg-fuchsia-500 p-3 animate-bounce">
+            <div className="rounded-full bg-fuchsia-500 p-3">
               <UserRound className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-fuchsia-600 to-mauve-600 bg-clip-text text-transparent">
