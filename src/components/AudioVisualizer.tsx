@@ -20,14 +20,26 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
     const canvas = canvasRef.current;
     if (!audio || !canvas) return;
 
-    // Clean up previous context and connections
-    if (audioContextRef.current) {
+    // Clean up function to handle disconnections and context closing
+    const cleanup = () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
       if (sourceRef.current) {
         sourceRef.current.disconnect();
       }
-      audioContextRef.current.close();
-    }
+      if (analyzerRef.current) {
+        analyzerRef.current.disconnect();
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
 
+    // Clean up any existing audio context and connections
+    cleanup();
+
+    // Create new audio context and connections
     const audioContext = new AudioContext();
     audioContextRef.current = audioContext;
     const analyzer = audioContext.createAnalyser();
@@ -75,17 +87,8 @@ export const AudioVisualizer = ({ audioUrl }: AudioVisualizerProps) => {
 
     draw();
 
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      if (sourceRef.current) {
-        sourceRef.current.disconnect();
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
-    };
+    // Clean up when component unmounts or audioUrl changes
+    return cleanup;
   }, [audioUrl]);
 
   return (
