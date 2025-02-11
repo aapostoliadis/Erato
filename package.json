@@ -1,7 +1,7 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "@aapostoliadis/erato",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aapostoliadis/erato": "^1.0.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -82,11 +83,6 @@
     "vite": "^5.4.1"
   },
   "publishConfig": {
-  "@aapostoliadis:registry": "https://npm.pkg.github.com"
-},
-  "name": "@aapostoliadis/erato",
-  "version": "1.0.0",
-  "publishConfig": {
     "registry": "https://npm.pkg.github.com"
-}
+  }
 }
